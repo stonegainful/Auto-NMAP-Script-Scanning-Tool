@@ -51,8 +51,9 @@ def main():
     print('State : %s' % nmScan[host].state()) 
     # Get OS information from [host]['osmatch'][ArrayIndex]['osclass'][ArrayIndex]['osfamily']
     # To Do: If Scanning results had multi os match results, it should change into for loop to get OS info
-    strOS = nmScan[host]['osmatch'][0]['osclass'][0]['osfamily']
-    dictPortScan[host] = {'OS':strOS}
+    for hostOS in range(len(nmScan[host]['osmatch'])):
+      strOS = nmScan[host]['osmatch'][hostOS]['osclass'][hostOS]['osfamily']
+      dictPortScan[host] = {'OS':strOS}
     # List all protocol on host using for loop
     # nmScan[host].all_protocols() will list all of protocols on host
     # variable:proto is one of scanned hosts, value is tcp || udp
@@ -85,8 +86,8 @@ def main():
           dictService[strName]['versions'] = dictService[strName]['versions'] + ';' + strVer
           dictService[strName]['ports'] = dictService[strName]['ports'] + ',' + str(port)
   
-    # append dictService into dictPortScan[<host_IP>]
-    dictPortScan[host] = dictService
+      # append dictService into dictPortScan[<host_IP>]
+      dictPortScan[host] = dictService
   
   for ip in dictPortScan.keys():
     # FTP Service
@@ -240,12 +241,12 @@ def main():
       print ('***Complete Oracle brute force scan***')
     # MySQL Service
     if 'mysql' in dictPortScan[ip].keys():
-      print '***Start MySQL brute force scan***'
+      print ('***Start MySQL brute force scan***')
       if args.opt == 'HYDRA': 
         nseScript.HYDRA(ip, dictPortScan[ip]['mysql']['ports'], 'mysql', dictPortScan[ip]['mysql'])
       else: 
         nseScript.MySQL(ip, dictPortScan[ip]['mysql']['ports'], dictPortScan[ip]['mysql'])
-      print '***Complete MySQL brute force scan***'
+      print ('***Complete MySQL brute force scan***')
     # PostgreSQL Service
     if 'postgresql' in dictPortScan[ip].keys():
       print ('***Start PostgreSQL brute force scan***')

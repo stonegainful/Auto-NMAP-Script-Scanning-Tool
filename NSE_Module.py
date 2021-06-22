@@ -9,13 +9,13 @@ import nmap
 import subprocess
 import os
 import json
-import ConfigParser
+import configparser
 #-----------------------
 #--- Variable Define ---
 #-----------------------
 #--- String variable ---
 # Loading from config file
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.read('Config.ini')
 # Set HYDRA, User Dictionary and Password Dictionary File Path
 if os.name == 'nt':
